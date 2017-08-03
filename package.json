@@ -14,13 +14,13 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "clean": "rimraf lib && rimraf coverage && rimraf .nyc_output && rimraf lib_test",
+    "clean": "rimraf lib && rimraf coverage && rimraf .nyc_output && rimraf lib_test/src && rimraf 'lib_test/test/**/*.spec.js'",
     "format": "prettier --write \"{src,test}/**/*.ts\"",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "prepublish": "npm run build",
     "prebuild": "npm run clean && npm run format && npm run lint && echo Using TypeScript && tsc --version",
     "build": "tsc --pretty",
-    "test": "npm run clean && tsc -p tsconfig.test.json --pretty && nyc --exclude \"**/*-spec.js\" ava \"**/*-spec.js\" --verbose",
+    "test": "npm run clean && tsc -p tsconfig.test.json --pretty && nyc --exclude \"**/*.spec.js\" ava \"**/*.spec.js\" --verbose",
     "coverage": "nyc report --reporter=lcov --reporter=text --reporter=html",
     "watch": "npm run build -- --watch",
     "watch:test": "npm run test -- --watch"
@@ -32,6 +32,7 @@
     "@types/babylon": "^6.16.2",
     "@types/node": "^8.0.0",
     "ava": "^0.20.0",
+    "babel-core": "^6.25.0",
     "coveralls": "^2.0.0",
     "nyc": "^10.0.0",
     "prettier": "^1.5.2",
