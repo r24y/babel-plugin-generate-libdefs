@@ -25,14 +25,20 @@
     "watch": "npm run build -- --watch",
     "watch:test": "npm run test -- --watch"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
   "devDependencies": {
     "@types/babel-core": "^6.25.0",
     "@types/babel-traverse": "^6.25.0",
     "@types/babylon": "^6.16.2",
+    "@types/lodash": "^4.14.73",
     "@types/node": "^8.0.0",
     "ava": "^0.20.0",
     "babel-core": "^6.25.0",
+    "babel-plugin-syntax-class-properties": "^6.13.0",
+    "babel-plugin-syntax-flow": "^6.18.0",
+    "babel-plugin-syntax-jsx": "^6.18.0",
     "coveralls": "^2.0.0",
     "nyc": "^10.0.0",
     "prettier": "^1.5.2",
