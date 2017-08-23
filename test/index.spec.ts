@@ -3,7 +3,7 @@ import { transform } from "babel-core";
 import generateLibdefs = require("../src/index");
 
 test("Should expose a function", t => {
-  t.truthy(typeof generateLibdefs === 'function');
+  t.truthy(typeof generateLibdefs === "function");
 });
 
 test("Should generate a basic libdef for an empty class", t => {
@@ -14,12 +14,16 @@ class Foo { }
   const output = transform(input, {
     comments: true,
     shouldPrintComment: () => true,
-    plugins: ['syntax-jsx', 'syntax-flow', 'syntax-class-properties', generateLibdefs],
+    plugins: [
+      "syntax-jsx",
+      "syntax-flow",
+      "syntax-class-properties",
+      generateLibdefs
+    ]
   });
-  t.snapshot(input, 'input');
-  t.snapshot(output.code, 'output');
+  t.snapshot(input, "input");
+  t.snapshot(output.code, "output");
 });
-
 
 test("Should generate a libdef for classes with prop types defined", t => {
   const input = `
@@ -41,8 +45,13 @@ class Foo extends SomeNamespace.Base {
   const output = transform(input, {
     comments: true,
     shouldPrintComment: () => true,
-    plugins: ['syntax-jsx', 'syntax-flow', 'syntax-class-properties', generateLibdefs]
+    plugins: [
+      "syntax-jsx",
+      "syntax-flow",
+      "syntax-class-properties",
+      generateLibdefs
+    ]
   });
-  t.snapshot(input, 'input');
-  t.snapshot(output.code, 'output');
+  t.snapshot(input, "input");
+  t.snapshot(output.code, "output");
 });

@@ -14,9 +14,11 @@ export function maybeTypeOrExistential(typeAnnotation: void | T.TypeAnnotation):
   return T.existentialTypeParam() as any; // use `any` to work around error in typedef
 }
 
-export function convertFunctionParamToFunctionTypeParam(ident: T.Identifier): T.FunctionTypeParam {
+export function convertFunctionParamToFunctionTypeParam(
+  ident: T.Identifier
+): T.FunctionTypeParam {
   const id = T.identifier(ident.name);
-  const type = maybeTypeOrExistential(ident.typeAnnotation)
+  const type = maybeTypeOrExistential(ident.typeAnnotation);
   return T.functionTypeParam(id, type);
 }
 
@@ -24,9 +26,13 @@ export function convertFunctionParamToFunctionTypeParam(ident: T.Identifier): T.
  * Generate a type property representation of the given class property.
  * @param classProp `ClassProperty` node
  */
-export function convertClassPropertyToPropertyAnnot(classProp: T.ClassProperty): T.ObjectTypeProperty {
+export function convertClassPropertyToPropertyAnnot(
+  classProp: T.ClassProperty
+): T.ObjectTypeProperty {
   const key = classProp.key;
-  const declaredType: T.FlowTypeAnnotation = maybeTypeOrExistential(classProp.typeAnnotation);
+  const declaredType: T.FlowTypeAnnotation = maybeTypeOrExistential(
+    classProp.typeAnnotation
+  );
   return copyComments(classProp, T.objectTypeProperty(key, declaredType));
 }
 
@@ -36,7 +42,9 @@ const isIdent = (node: any) => T.isIdentifier(node);
  * Generate a type property representation of the given method.
  * @param method `ClassMethod` node to convert.
  */
-export function convertMethodToPropertyAnnot(method: T.ClassMethod): T.ObjectTypeProperty {
+export function convertMethodToPropertyAnnot(
+  method: T.ClassMethod
+): T.ObjectTypeProperty {
   const key = method.key;
   const declaredType = T.functionTypeAnnotation(
     method.typeParameters,
@@ -47,11 +55,16 @@ export function convertMethodToPropertyAnnot(method: T.ClassMethod): T.ObjectTyp
   return copyComments(method, T.objectTypeProperty(key, declaredType));
 }
 
-export function convertClassMemberToPropertyAnnot(member: T.Node): null | T.ObjectTypeProperty {
+export function convertClassMemberToPropertyAnnot(
+  member: T.Node
+): null | T.ObjectTypeProperty {
   switch (member.type) {
-    case 'ClassProperty': return convertClassPropertyToPropertyAnnot(member as T.ClassProperty);
-    case 'ClassMethod': return convertMethodToPropertyAnnot(member as T.ClassMethod);
-    default: return null;
+    case "ClassProperty":
+      return convertClassPropertyToPropertyAnnot(member as T.ClassProperty);
+    case "ClassMethod":
+      return convertMethodToPropertyAnnot(member as T.ClassMethod);
+    default:
+      return null;
   }
 }
 
@@ -60,6 +73,8 @@ export function convertClassMemberToPropertyAnnot(member: T.Node): null | T.Obje
  *
  * @param classBody Array of members (properties, methods) of the class.
  */
-export default function collectPropertyTypes(classBody: Array<T.Node>): Array<T.ObjectTypeProperty> {
+export default function collectPropertyTypes(
+  classBody: Array<T.Node>
+): Array<T.ObjectTypeProperty> {
   return classBody.map(convertClassMemberToPropertyAnnot).filter(Boolean);
 }
